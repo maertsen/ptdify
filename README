@@ -1,0 +1,22 @@
+
+
+Start development
+=================
+
+# instructions obtained from 
+# http://tumblr.intranation.com/post/766290325/python-virtualenv-quickstart-django
+# (assuming debian or ubuntu, ymmv)
+# get virtualenv
+sudo apt-get install python-setuptools
+sudo easy_install virtualenv
+
+# create your virtualenv
+# cd to development location (usually inside git, it gets ignored at top level)
+virtualenv --no-site-packages venv
+
+# Installing Django
+./venv/bin/easy_install django
+
+# run server
+cd ptdify
+../venv/bin/python manage.py runserver 0.0.0.0:8000
