@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Context</h2>
+    <ul>
+        {% for context in object_list %}
+            <li>{{ context.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

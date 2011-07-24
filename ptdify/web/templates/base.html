@@ -7,5 +7,11 @@
 </head>
 <body>
 {% block content %}{% endblock %}
+<ul id="menu">
+    <li><a href="{% url action_list %}">actions</a></li>
+    <li><a href="{% url area_list %}">areas</a></li>
+    <li><a href="{% url context_list %}">contexts</a></li>
+    <li><a href="{% url project_list %}">projects</a></li>
+</ul>
 </body>
 </html>
