@@ -20,6 +20,13 @@ virtualenv --no-site-packages venv
 # Installing South (database migrations)
 ./venv/bin/easy_install South
 
-# run server
 cd ptdify
+
+# create database, run migrations and don't prompt for auth users
+../venv/bin/python manage.py syncdb --noinput --migrate
+
+# fill database with test data (including test and admin users)
+../venv/bin/python manage.py loaddata test
+
+# run server
 ../venv/bin/python manage.py runserver 0.0.0.0:8000
