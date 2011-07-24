@@ -1,8 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class Area(models.Model):
+    user = models.ForeignKey(User)
+    name = models.CharField(max_length=50)
+
 class Context(models.Model):
     user = models.ForeignKey(User)
+    area = models.ForeignKey(Area)
     name = models.CharField(max_length=50)
     order = models.PositiveIntegerField(blank=True,null=True)
 
@@ -12,6 +17,7 @@ class Context(models.Model):
 
 class Project(models.Model):
     user = models.ForeignKey(User)
+    area = models.ForeignKey(Area)
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True)
     defaultContext = models.ForeignKey(Context)
@@ -22,6 +28,7 @@ class Project(models.Model):
 
 class Action(models.Model):
     user = models.ForeignKey(User)
+    area = models.ForeignKey(Area)
     description = models.CharField(max_length=100)
     notes = models.TextField(blank=True)
     context = models.ForeignKey(Context)
