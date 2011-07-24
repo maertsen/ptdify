@@ -17,7 +17,6 @@ class Context(models.Model):
     def __unicode__(self):
         return self.name
 
-
 class Project(models.Model):
     user = models.ForeignKey(User)
     area = models.ForeignKey(Area)
@@ -45,4 +44,3 @@ class Action(models.Model):
 
     def __unicode__(self):
         return self.description
-
