@@ -33,10 +33,12 @@ class Action(models.Model):
     notes = models.TextField(blank=True)
     context = models.ForeignKey(Context)
     project = models.ForeignKey(Project,blank=True,null=True)
+    dependsOn = models.ForeignKey('Action',blank=True,null=True)
     # are these still necessary?
     # due = models.DateField(blank=True,null=True)
     # showFrom = models.DateField(blank=True,null=True)
     completed = models.BooleanField()
+    future = models.BooleanField()
 
     def __unicode__(self):
         return self.description
