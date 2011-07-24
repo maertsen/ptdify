@@ -27,7 +27,6 @@ class Area(UserModel):
 
 class Context(AreaUserModel):
     name = models.CharField(max_length=50)
-    order = models.PositiveIntegerField(blank=True,null=True)
 
     def __unicode__(self):
         return self.name
