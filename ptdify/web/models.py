@@ -5,6 +5,9 @@ class Area(models.Model):
     user = models.ForeignKey(User)
     name = models.CharField(max_length=50)
 
+    def __unicode__(self):
+        return self.name
+
 class Context(models.Model):
     user = models.ForeignKey(User)
     area = models.ForeignKey(Area)
