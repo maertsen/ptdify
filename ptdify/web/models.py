@@ -1,9 +1,13 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+from web.managers import UserManager
 
 class Area(models.Model):
     user = models.ForeignKey(User)
     name = models.CharField(max_length=50)
+
+    # Managers
+    objects = UserManager()
 
     def __unicode__(self):
         return self.name
@@ -13,6 +17,9 @@ class Context(models.Model):
     area = models.ForeignKey(Area)
     name = models.CharField(max_length=50)
     order = models.PositiveIntegerField(blank=True,null=True)
+
+    # Managers
+    objects = UserManager()
 
     def __unicode__(self):
         return self.name
@@ -24,6 +31,9 @@ class Project(models.Model):
     description = models.TextField(blank=True)
     defaultContext = models.ForeignKey(Context)
     order = models.PositiveIntegerField(blank=True,null=True)
+
+    # Managers
+    objects = UserManager()
 
     def __unicode__(self):
         return self.name
@@ -42,5 +52,9 @@ class Action(models.Model):
     completed = models.BooleanField()
     future = models.BooleanField()
 
+    # Managers
+    objects = UserManager()
+
     def __unicode__(self):
         return self.description
+
