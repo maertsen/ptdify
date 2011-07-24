@@ -5,6 +5,11 @@
     <ul>
         {% for context in object_list %}
             <li>{{ context.name }}</li>
+            <ul>
+                {% for action in context.action_set.all %}
+                    <li>{{ action.description }}</li>
+                {% endfor %}
+            </ul>
         {% endfor %}
     </ul>
 {% endblock %}

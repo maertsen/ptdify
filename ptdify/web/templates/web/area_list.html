@@ -5,6 +5,24 @@
     <ul>
         {% for area in object_list %}
             <li>{{ area.name }}</li>
+            <h3>Actions</h3>
+            <ul>
+                {% for action in area.action_set.all %}
+                    <li>{{ action.description }}</li>
+                {% endfor %}
+            </ul>
+            <h3>Contexts</h3>
+            <ul>
+                {% for context in area.context_set.all %}
+                    <li>{{ context.name }}</li>
+                {% endfor %}
+            </ul>
+            <h3>Projects</h3>
+            <ul>
+                {% for project in area.project_set.all %}
+                    <li>{{ project.name }}</li>
+                {% endfor %}
+            </ul>
         {% endfor %}
     </ul>
 {% endblock %}

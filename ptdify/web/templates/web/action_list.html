@@ -5,6 +5,14 @@
     <ul>
         {% for action in object_list %}
             <li>{{ action.description }}</li>
+            <ul>
+                {% if action.project %} 
+                <li>{{ action.project.name }}</li>
+                {% endif %}
+                {% if action.dependsOn %} 
+                <li>{{ action.dependsOn.description }}</li>
+                {% endif %}
+            </ul>
         {% endfor %}
     </ul>
 {% endblock %}
