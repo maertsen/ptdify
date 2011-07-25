@@ -40,6 +40,12 @@ class Project(AreaUserModel):
     def __unicode__(self):
         return self.name
 
+ACTIONSTATUS = (
+    ('W', 'Waiting'),
+    ('N', 'Next'),
+    ('F', 'Future'),
+)
+
 class Action(AreaUserModel):
     description = models.CharField(max_length=100)
     notes = models.TextField(blank=True)
@@ -50,7 +56,7 @@ class Action(AreaUserModel):
     # due = models.DateField(blank=True,null=True)
     # showFrom = models.DateField(blank=True,null=True)
     completed = models.BooleanField()
-    future = models.BooleanField()
+    status = models.CharField(max_length=1, choices=ACTIONSTATUS, default='N')
 
     def __unicode__(self):
         return self.description
