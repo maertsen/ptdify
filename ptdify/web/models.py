@@ -60,3 +60,31 @@ class Action(AreaUserModel):
 
     def __unicode__(self):
         return self.description
+
+    def save(self, *args, **kwargs):
+        # if:
+        # - we are not yet completed
+        # AND
+        # - we are depending on some other action
+        # then become future if:
+        #       - the action we depend on is future 
+        #       OR
+        #       - the action we depend on is not yet completed
+        if not self.completed and self.dependsOn_id is not None:
+            if self.dependsOn.status == 'F' or not self.dependsOn.completed:
+                self.status = 'F'
+
+        super(Action, self).save(*args, **kwargs) # Call the "real" save() method.
+
+        # some postprocessing
+        if self.completed: # all future actions depending on this one become next
+            searchFor = 'F'
+            turnInto = 'N'
+        else: # all next actions depending on this one become future
+            searchFor = 'N'
+            turnInto = 'F'
+        
+        depending = self.action_set.filter(completed=False).filter(status__exact=searchFor)
+        for d in depending:
+            d.status = turnInto
+            d.save()
