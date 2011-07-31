@@ -1,0 +1,48 @@
+html {
+	background:#fff;
+	font-family:Tahoma;
+	font-size:12pt;
+	}
+	
+#searchtags ul {
+	padding: 0px;
+	margin: 0px;
+	list-style-type:none;
+	display:block;	
+	float:left;
+	}	
+	
+#searchtags ul li {
+	height:25px;
+	margin:0px 2px 0px 0px;
+	padding:5px 5px 0px 5px;
+	background:#e4e4e4;
+	float:left;
+	display:block;
+	}
+	
+#smartboxWrapper {
+	border:1px solid #e4e4e4;
+	padding:2px;
+	}	
+	
+#smartbox {
+	height:20px;
+	font-size:12pt;
+	font-family:Tahoma;
+	border:none;
+	padding:5px 5px 5px 5px;
+	margin:0px 2px 0px 0px;
+	}	
+	
+.left {
+	float:left;
+	}	
+	
+.right {
+	float:right;
+	}	
+	
+.clear {
+	clear:both;
+	}	
