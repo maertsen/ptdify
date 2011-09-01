@@ -12,45 +12,25 @@ class UserModel(models.Model):
     class Meta:
         abstract = True
 
-class AreaUserModel(UserModel):
-    area = models.ForeignKey('Area')
+class UserRealmModel(UserModel):
+    realm = models.ForeignKey('Realm',blank=True,null=True)
 
     class Meta:
         abstract = True
 
 # Normal classes
-class Area(UserModel):
-    name = models.CharField(max_length=50)
-
-    def __unicode__(self):
-        return self.name
-
-class Context(AreaUserModel):
-    name = models.CharField(max_length=50)
-
-    def __unicode__(self):
-        return self.name
-
-class Project(AreaUserModel):
-    name = models.CharField(max_length=50)
-    description = models.TextField(blank=True)
-    defaultContext = models.ForeignKey(Context)
-    order = models.PositiveIntegerField(blank=True,null=True)
-
-    def __unicode__(self):
-        return self.name
-
 ACTIONSTATUS = (
     ('W', 'Waiting'),
     ('N', 'Next'),
     ('F', 'Future'),
 )
 
-class Action(AreaUserModel):
+class Action(UserRealmModel):
     description = models.CharField(max_length=100)
     notes = models.TextField(blank=True)
-    context = models.ForeignKey(Context)
-    project = models.ForeignKey(Project,blank=True,null=True)
+    contact = models.ForeignKey('Contact',blank=True,null=True)
+    context = models.ForeignKey('Context')
+    project = models.ForeignKey('Project',blank=True,null=True)
     dependsOn = models.ForeignKey('Action',blank=True,null=True)
     # are these still necessary?
     # due = models.DateField(blank=True,null=True)
@@ -88,3 +68,40 @@ class Action(AreaUserModel):
         for d in depending:
             d.status = turnInto
             d.save()
+
+class Area(UserRealmModel):
+    name = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return self.name
+
+class Contact(UserRealmModel):
+    name = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return self.name
+
+class Context(UserRealmModel):
+    name = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return self.name
+
+class Project(UserRealmModel):
+    active = models.BooleanField(default=True)
+    area = models.ForeignKey('Area',blank=True,null=True)
+    description = models.TextField(blank=True)
+    defaultContact = models.ForeignKey(Contact,blank=True,null=True)
+    defaultContext = models.ForeignKey(Context)
+    name = models.CharField(max_length=50)
+    order = models.PositiveIntegerField(blank=True,null=True)
+
+    def __unicode__(self):
+        return self.name
+
+class Realm(UserModel):
+    name = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return self.name
+
