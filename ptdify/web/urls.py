@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     url(r'^view/areas$',    AreaView.as_view(),       name="area_list"),
     url(r'^view/contexts$', ContextView.as_view(),    name="context_list"),
     url(r'^view/projects$', ProjectView.as_view(),    name="project_list"),
+    url(r'^test$',          autocomplete,              name="autocomplete"),
 )
