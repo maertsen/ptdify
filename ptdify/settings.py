@@ -65,6 +65,8 @@ STATICFILES_URL = '/static/'
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
+STATIC_URL = '/static/'
+
 # A list of locations of additional static files
 STATICFILES_DIRS = ()
 

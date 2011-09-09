@@ -3,9 +3,78 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>{% block title %}{% endblock %}</title>
-<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/base.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/autocomplete.css" />
+<script src="{{ STATIC_URL }}js/jquery-1.6.2.js" ></script>
+	<script src="{{ STATIC_URL }}/js/ui/jquery.ui.core.js"></script>
+	<script src="{{ STATIC_URL }}/js/ui/jquery.ui.widget.js"></script>
+	<script src="{{ STATIC_URL }}/js/ui/jquery.ui.position.js"></script>
+	<script src="{{ STATIC_URL }}/js/ui/jquery.ui.autocomplete.js"></script>
+<script>
+	$(function() {
+
+		$( "#smartbox" )
+			// don't navigate away from the field on tab when selecting an item
+			.bind( "keydown", function( event ) {
+				if ( event.keyCode === $.ui.keyCode.TAB &&
+						$( this ).data( "autocomplete" ).menu.active ) {
+						
+					event.preventDefault();
+				} else if(event.keyCode === $.ui.keyCode.ENTER) {
+					console.info('enter key pressed');
+				} else if(event.keyCode === $.ui.keyCode.BACKSPACE) {
+					console.info('backspace key pressed');
+				}
+			})
+			.autocomplete({
+				minLength: 0,
+				source: function(req, add){  
+					//pass request to server  
+					$.getJSON("/searchtags/?", req, function(data) {  
+	  
+						//create array for response objects  
+						var suggestions = [];  
+	  
+						//process response  
+						$.each(data, function(i, val){  
+							suggestions.push(val.name);  
+						});  
+	  
+						//pass array to callback  
+						add(suggestions);  
+						
+					});  
+				}, 
+
+				focus: function() {
+					// prevent value inserted on focus
+					return true;
+				},
+				select: function( event, ui ) {
+					$("#searchtags ul").append('<li>'+ui.item.value+'</li>');
+					this.value = "";
+					return false;
+				}
+			});
+	});
+	</script>
 </head>
 <body>
+
+<div id="smartboxWrapper">
+
+	<div id="searchtags">
+		<ul></ul>
+	</div>
+
+	<div class="ui-widget left">
+		<input id="smartbox" value="" size="25" />
+	</div>
+
+	<div class="clear"></div>
+</div>
+
+
 {% block content %}{% endblock %}
 <ul id="menu">
     <li><a href="{% url action_list %}">actions</a></li>

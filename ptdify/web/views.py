@@ -6,8 +6,6 @@ from django.views.generic import ListView
 from web.models import Action, Area, Context, Project
 from web.util.search import Search
 
-
-
 class LatestActionView(ListView):
     context_object_name='latest_action_list'
     queryset=Action.objects.all()[:5]
