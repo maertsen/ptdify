@@ -30,3 +30,9 @@ cd ptdify
 
 # run server
 ../venv/bin/python manage.py runserver 0.0.0.0:8000
+
+
+Branch management
+=================
+
+Inspired on: http://nvie.com/posts/a-successful-git-branching-model/
