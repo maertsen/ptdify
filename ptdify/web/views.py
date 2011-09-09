@@ -1,9 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 from web.models import Action, Area, Context, Project
 from web.util.search import Search
+
+
 
 class LatestActionView(ListView):
     context_object_name='latest_action_list'
@@ -40,6 +43,16 @@ class ProjectView(ListView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(ProjectView, self).dispatch(*args, **kwargs)
+
+class AutocompleteView(JSONResponseMixin, View):
+    pass
+
+    #@csrf_exempt
+    #@method_decorator(login_required)
+    #def dispatch(request):
+    #    query = simplejson.load(request['data'])
+    #
+    #    for  in query
 
 def autocomplete(request):
     import pprint
