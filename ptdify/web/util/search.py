@@ -3,12 +3,27 @@ import web.models as models
 
 class Search:
     @staticmethod
-    def fromJSON(json):
-        # some logic to deserialize the json
+    def fromJSON(query):
+        safelist = [c.__name__ for c in Meta.__subclasses__()]
+        chunklist = [q.rsplit(',', 1) for q in query]
 
-        # and to create a new Search object (with block empty)
-        # return Search()
-        pass
+        found_new = False
+        classified = list()
+        remainder = ""
+
+        for chunk in chunklist:
+            text = chunk[0]
+            meta = chunk[1].capitalize()
+
+            if found_new or meta == "New":
+                found_new = True
+                remainder.append(text)
+            elif not meta in safelist:
+                raise ValueError("unknown meta type: %s" % meta)
+            else:
+                classified.append(Block(text, eval(meta)))
+
+        return Search(classified, remainder)
 
     def __init__(self, classified, remainder):
         self.classified = classified
@@ -16,10 +31,10 @@ class Search:
         self.children = []
 
     def autoComplete(self, numResults):
-        self.execute()
+        self._execute()
         return self.collect()[:numResults]
 
-    def execute(self):
+    def _execute(self):
         if not self.remainder:
             return # we are done recursing
 
@@ -39,7 +54,7 @@ class Search:
                 child = Search(classified, newRemainder)
 
                 # recursively calling the child to execute as well
-                child.execute()
+                child._execute()
                 self.children.append(child)
 
     def collect(self):
@@ -68,6 +83,9 @@ class Block:
 
     def __str__(self):
         return "text: '%s' meta: '%s'" % (self.text, self.meta.__class__.__name__)
+
+    def as_list(self):
+        return [self.text, self.meta.__name__]
 
 """
 Placeholder for possible metadata attached to text
