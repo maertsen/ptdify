@@ -1,24 +1,28 @@
-var searchterms = {"data":[{"new":""}]};
+var searchterms = {"query": []};
+var currentParamIndex = 0;
 
-var testresponse = {"data": [[{"context":"kamer"}, {"project":"opruimen"}],[{"context":"kamer"}, {"unknown":"opruimen"}]]}
+/**
+	This function reads a json response item and returns html for the autocompletion
+*/
+function itemToHTML(data) {
+	data.htmlValue = "<a>";
+	$.each(data, function(key, val) {
+		if(key >= 0 && val != undefined) { 
+			data.htmlValue += "<span>"+val[0]+": "+val[1]+"</span>";
+		}
 
-function parseSelection(searchterms, term) {
-	term.each(function(i,val){
-		searchterms.data[0][i] = val;
-	});	
+	});
+	data.htmlValue += "</a>";			
+	return data;
 }
 
-function getParams(searchterms, req) {
+function getSearchData(req) {
 	
-	searchterms.data[0].new = req.term;
-	
+	searchterms.query[currentParamIndex] = [req.term, "New"];
 	return searchterms;
 }
 
 $(function() {
-
-		
-
 		$( "#smartbox" )
 			// don't navigate away from the field on tab when selecting an item
 			.bind( "keydown", function( event ) {
@@ -35,60 +39,45 @@ $(function() {
 			.autocomplete({
 				minLength: 0,
 
-				source: testresponse.data
-				
-				/*function(req){  
-		
-					//$("#smartbox").trigger("select", testresponse);			
-					
-					//pass request to server  
-					$.getJSON("/searchtags/", getParams(searchterms, req) ,  function(response) {  
-	  
-						//create array for response objects  
-						var suggestions = [];  
-	  
-	  					response = testresponse;
-	  
-						//process response  
-						$.each(response.data, function(i, val){  
-							console.info(val);
-							
-							suggestions.push(val);  
-						});  
-	  
-						//pass array to callback  
-						return suggestions; 
-						
-					});  
-				}*/, 
+				source:
+				function(req, parseResult) {
+					jQuery.ajax({
+						   type: "GET",
+						   url: autocompleteUrl,
+						   data: getSearchData(req),
+						   processData: true,
+						   dataType: "json",
+						   traditional: true,
+						   success: function(data) {parseResult(data);}
+					   });
+					   }
+					   ,
 
 				focus: function() {
 					// prevent value inserted on focus
-					return true;
+					return false;
 				},
 				select: function( event, ui ) {
-					//$("#searchtags ul").append('<li>'+ui.item.value+'</li>');
-					//parseSelection(ui.item.value);
-					//console.info("terms: "+searchterms);
-					console.info(event);
-					console.info(ui);
+					searchterms.query = [];
+					$('#searchtags ul').empty();
+					currentParamIndex = 0;
+					$.each(ui.item, function(key, val) {
+						if(key>=0 && val!== undefined) {
+						 	$('#searchtags ul').append("<li>"+val[0]+"</li>");					
+						 	searchterms.query.push([val[0], val[1]]);
+						 	currentParamIndex++;
+						}
+					});				
 					this.value = "";
 					return false;
 				}
 			}).data( "autocomplete" )._renderItem = function( ul, item ) {
-			appendToString = "";
-			$.each(item, function(key,val){
-			if(val != undefined) {
-				if(val.context != undefined) appendToString += "context: " +val.context;
-				if(val.project != undefined) appendToString += "project: " +val.project;
-				if(val.unknown != undefined) appendToString += "unknown: " +val.unknown;
-				}
-
-			});
-			
+	
+			parsedData = itemToHTML(item);
+	
 			return $( "<li></li>" )
 				.data( "item.autocomplete", item )
-				.append( appendToString )
+				.append( parsedData.htmlValue )
 				.appendTo( ul );
 			};
 	});
