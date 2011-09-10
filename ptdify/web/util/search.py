@@ -17,7 +17,7 @@ class Search:
 
             if found_new or meta == "New":
                 found_new = True
-                remainder.append(text)
+                remainder += text
             elif not meta in safelist:
                 raise ValueError("unknown meta type: %s" % meta)
             else:
@@ -85,7 +85,7 @@ class Block:
         return "text: '%s' meta: '%s'" % (self.text, self.meta.__class__.__name__)
 
     def as_list(self):
-        return [self.text, self.meta.__name__]
+        return [self.text, self.meta.__class__.__name__]
 
 """
 Placeholder for possible metadata attached to text
