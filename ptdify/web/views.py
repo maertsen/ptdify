@@ -42,8 +42,8 @@ class ProjectView(ListView):
     def dispatch(self, *args, **kwargs):
         return super(ProjectView, self).dispatch(*args, **kwargs)
 
-class AutocompleteView(JSONResponseMixin, View):
-    pass
+#class AutocompleteView(JSONResponseMixin, View):
+#   pass
 
     #@csrf_exempt
     #@method_decorator(login_required)
