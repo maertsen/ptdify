@@ -15,9 +15,9 @@ class Search:
             text = chunk[0]
             meta = chunk[1].capitalize()
 
-            if found_new or meta == "New":
+            if found_new or meta == "New" or meta == "Unknown":
                 found_new = True
-                remainder += text
+                remainder += (" " + text )
             elif not meta in safelist:
                 raise ValueError("unknown meta type: %s" % meta)
             else:
