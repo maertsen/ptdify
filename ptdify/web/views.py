@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.utils import simplejson
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import ListView
+from django.views.generic import ListView, View
+from web.mixins import JSONResponseMixin
 from web.models import Action, Area, Context, Project
 from web.util.search import Search
 
@@ -42,15 +44,25 @@ class ProjectView(ListView):
     def dispatch(self, *args, **kwargs):
         return super(ProjectView, self).dispatch(*args, **kwargs)
 
-#class AutocompleteView(JSONResponseMixin, View):
-#   pass
+class AutocompleteView(View, JSONResponseMixin):
+    @csrf_exempt
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(AutocompleteView, self).dispatch(request, *args, **kwargs)
 
-    #@csrf_exempt
-    #@method_decorator(login_required)
-    #def dispatch(request):
-    #    query = simplejson.load(request['data'])
-    #
-    #    for  in query
+    def get(self, request):
+        query =  request.GET.getlist('query')
+
+        try:
+            search = Search.fromJSON(query)     
+        except ValueError as e:
+            return HttpResponseBadRequest("Bad request: %s" % e)
+
+        completed = search.autoComplete(10) # TODO remove magic number
+
+        result_list = [[block.as_list() for block in suggestion] for suggestion in completed]
+
+        return self.render_to_response(result_list)
 
 def autocomplete(request):
     import pprint
