@@ -1,3 +1,4 @@
+{% load url from future %}
 <?xml version="1.0"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -10,9 +11,9 @@
 	<script src="{{ STATIC_URL }}js/ui/jquery.ui.widget.js"></script>
 	<script src="{{ STATIC_URL }}js/ui/jquery.ui.position.js"></script>
 	<script src="{{ STATIC_URL }}js/ui/jquery.ui.autocomplete.js"></script>
-
-	<script src="{{ STATIC_URL }}js/smartbox/smartbox.js"></script>
 	<script src="{{ STATIC_URL }}js/jquery.json-2.2.js"></script>
+	<script language="text/javascript">var autocompleteUrl = "{% url 'autocomplete' %}";</script>
+	<script src="{{ STATIC_URL }}js/smartbox/smartbox.js"></script>	
 </head>
 <body>
 
@@ -38,10 +39,10 @@
 
 {% block content %}{% endblock %}
 <ul id="menu">
-    <li><a href="{% url action_list %}">actions</a></li>
-    <li><a href="{% url area_list %}">areas</a></li>
-    <li><a href="{% url context_list %}">contexts</a></li>
-    <li><a href="{% url project_list %}">projects</a></li>
+    <li><a href="{% url 'action_list' %}">actions</a></li>
+    <li><a href="{% url 'area_list' %}">areas</a></li>
+    <li><a href="{% url 'context_list' %}">contexts</a></li>
+    <li><a href="{% url 'project_list' %}">projects</a></li>
 </ul>
 </body>
 </html>
