@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.utils import simplejson
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -46,8 +46,10 @@ class ProjectView(ListView):
 
 class AutocompleteView(View, JSONResponseMixin):
     @csrf_exempt
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            return HttpResponseForbidden("Forbidden: not logged in")
+
         return super(AutocompleteView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request):
