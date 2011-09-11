@@ -1,19 +1,12 @@
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
-from django.utils import simplejson
-from django.utils.decorators import method_decorator
+from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, View
+from web.genericviews import LoggedInView
 from web.mixins import JSONResponseMixin
-from web.models import Action, Area, Context, Project
 from web.util.search import Search
 
-class HomeView(TemplateView):
+class HomeView(LoggedInView, TemplateView):
     template_name = "home.html"
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(HomeView, self).dispatch(*args, **kwargs)
 
 class AutocompleteView(View, JSONResponseMixin):
     @csrf_exempt
