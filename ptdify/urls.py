@@ -15,8 +15,8 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
 
-    url(r'^accounts/login/$', login),
-    url(r'^accounts/logout/$', logout),
+    url(r'^login/$', login, name="login"),
+    url(r'^logout/$', logout, name="logout"),
 )
 
 urlpatterns += staticfiles_urlpatterns()

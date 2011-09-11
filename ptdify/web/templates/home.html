@@ -2,6 +2,10 @@
 {% load url from future %}
 
 {% block content %}
+<div id="loginWrapper">
+logged in as: {{ username }} <a href="{% url 'logout' %}">(logout)</a>
+</div>
+
 <div id="smartboxWrapper">
 
 	<div id="searchtags">
