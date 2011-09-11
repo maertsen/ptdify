@@ -43,7 +43,7 @@ $(function() {
 				function(req, parseResult) {
 					jQuery.ajax({
 						   type: "GET",
-						   url: autocompleteUrl,
+						   url: "/ajax/autocomplete",
 						   data: getSearchData(req),
 						   processData: true,
 						   dataType: "json",
