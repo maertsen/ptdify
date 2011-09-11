@@ -3,42 +3,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>{% block title %}{% endblock %}</title>
-<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/base.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/autocomplete.css" />
-<script src="{{ STATIC_URL }}js/jquery-1.6.2.js" ></script>
-	<script src="{{ STATIC_URL }}js/ui/jquery.ui.core.js"></script>
-	<script src="{{ STATIC_URL }}js/ui/jquery.ui.widget.js"></script>
-	<script src="{{ STATIC_URL }}js/ui/jquery.ui.position.js"></script>
-	<script src="{{ STATIC_URL }}js/ui/jquery.ui.autocomplete.js"></script>
-	<script src="{{ STATIC_URL }}js/jquery.json-2.2.js"></script>
-	<script language="text/javascript">var autocompleteUrl = "{% url 'autocomplete' %}";</script>
-	<script src="{{ STATIC_URL }}js/smartbox/smartbox.js"></script>	
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/base.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/autocomplete.css" />
+    <script src="{{ STATIC_URL }}js/jquery-1.6.2.js" ></script>
+    <script src="{{ STATIC_URL }}js/ui/jquery.ui.core.js"></script>
+    <script src="{{ STATIC_URL }}js/ui/jquery.ui.widget.js"></script>
+    <script src="{{ STATIC_URL }}js/ui/jquery.ui.position.js"></script>
+    <script src="{{ STATIC_URL }}js/ui/jquery.ui.autocomplete.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.json-2.2.js"></script>
+    <script language="text/javascript">var autocompleteUrl = "{% url 'autocomplete' %}";</script>
+    <script src="{{ STATIC_URL }}js/smartbox/smartbox.js"></script>	
 </head>
 <body>
-
-<div id="smartboxWrapper">
-
-	<div id="searchtags">
-		<ul></ul>
-	</div>
-
-	<div class="ui-widget left">
-		<form id="smartboxform">
-
-			<input id="smartbox" value="" size="25" />
-		</form>
-	</div>
-
-	<div class="clear"></div>
-</div>
-
 {% block content %}{% endblock %}
-<ul id="menu">
-    <li><a href="{% url 'action_list' %}">actions</a></li>
-    <li><a href="{% url 'area_list' %}">areas</a></li>
-    <li><a href="{% url 'context_list' %}">contexts</a></li>
-    <li><a href="{% url 'project_list' %}">projects</a></li>
-</ul>
 </body>
 </html>
